@@ -1,0 +1,8 @@
+.process-bar-block {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 0px;
+}
