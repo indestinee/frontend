@@ -1,4 +1,5 @@
 import {Form, Table} from 'react-bootstrap';
+import {saltedDecrypt} from '../../utils/customEncryption';
 
 export interface PasteInfo {
   text: string,
@@ -13,6 +14,7 @@ export interface PasteBoardParam {
 
 const PastPad = (info: PasteInfo) => {
   const date = new Date(info.time * 1000);
+  const content = saltedDecrypt(info.text);
 
   return (
     <tr>
@@ -25,7 +27,7 @@ const PastPad = (info: PasteInfo) => {
         </div>
       </td>
       <td>
-        <Form.Control as="textarea" rows={5} value={info.text} disabled />
+        <Form.Control as="textarea" rows={5} value={content} disabled />
       </td>
     </tr>
   );
@@ -43,7 +45,7 @@ export default function PasteBoard(param: PasteBoardParam) {
           </tr>
         </thead>
         <tbody>
-          {
+          { param.infos.length &&
             param.infos.sort((a, b) => b.time - a.time)
                 .map((info) => (
                   <PastPad key={info.ip} {...info}></PastPad>
