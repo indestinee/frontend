@@ -1,9 +1,12 @@
+import Temperature from '../../components/dashboard/temperature';
+import './index.css';
+
 export default function Home() {
   return (
     <>
-      <main>
-        <h2>Welcome to the homepage!</h2>
-      </main>
+      <div className="container">
+        <Temperature />
+      </div>
     </>
   );
 }
