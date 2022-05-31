@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import {saltedEncrypt} from '../../utils/customEncryption';
+import {FaEdit} from 'react-icons/fa';
 
 interface Param {
   onSubmit: () => void,
@@ -37,7 +38,7 @@ export default function EditorBoard(param: Param) {
   return (
     <>
       <Form.Group className="mb-3" controlId="clipBoard">
-        <h5>Edit Board</h5>
+        <h5><FaEdit />Edit Board</h5>
         <Form.Control as="textarea" rows={8} value={text} onChange={
           (data) => setText(data.target.value)
         } />

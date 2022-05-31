@@ -1,6 +1,6 @@
 import {Button, Form, Table} from 'react-bootstrap';
 import {saltedDecrypt} from '../../utils/customEncryption';
-import {FaTrash} from 'react-icons/fa';
+import {FaClipboardList, FaTrash} from 'react-icons/fa';
 
 
 export interface PasteInfo {
@@ -62,7 +62,7 @@ const PastePad = (param: PastePadParam) => {
 export default function PasteBoard(param: PasteBoardParam) {
   return (
     <>
-      <h5>Paste Board</h5>
+      <h5><FaClipboardList />Paste Board</h5>
       <Table striped style={{textAlign: 'center'}}>
         <thead>
           <tr>

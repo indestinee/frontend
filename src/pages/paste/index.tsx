@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import EditorBoard from '../../components/editorBoard';
 import PasteBoard, {PasteInfo} from '../../components/pasteBoard';
+import {FaRegCopy} from 'react-icons/fa';
 
 export default function Paste() {
   const [infos, setInfos] = useState<PasteInfo[]>([]);
@@ -40,7 +41,7 @@ export default function Paste() {
 
   return (
     <>
-      <h2>Shared Clipboard</h2>
+      <h2><FaRegCopy />Shared Clipboard</h2>
       <p>Your IP is: {ip}</p>
       <EditorBoard onSubmit={refreshPaste}/>
       <br /><br />

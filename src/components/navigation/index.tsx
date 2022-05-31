@@ -11,7 +11,7 @@ export default function Navigation() {
             <Nav.Link href="/wifi">WiFi</Nav.Link>
             <Nav.Link href="/paste">Paste</Nav.Link>
             <Nav.Link href="/cgi-bin/luci/">Luci</Nav.Link>
-            <Nav.Link href="/gl_home.html">Gl Home</Nav.Link>
+            <Nav.Link href="/gl_home.html">GL Home</Nav.Link>
             <Nav.Link href="smb://192.168.8.1/">Samba</Nav.Link>
             <Nav.Link href="/transmission/web/">Transmission</Nav.Link>
           </Nav>
