@@ -5,7 +5,6 @@ import './index.css';
 export default function Temperature() {
   const [temperatures, setTemperatures] = useState<number[]>([]);
 
-  // TODO move to redux
   const fetchTemperature = () => {
     fetch('/temperature')
         .then((res) => res.json())
