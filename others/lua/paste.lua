@@ -67,6 +67,17 @@ if ngx.var.request_method == "POST" then
 elseif ngx.var.request_method == "GET" then
     rsp["files"] = load_files()
     rsp["success"] = true
+elseif ngx.var.request_method == "DELETE" then
+    ngx.req.read_body()
+    body = cjson.decode(ngx.req.get_body_data())
+    ip = string.match(tostring(body["ip"]), '[0-9.]+')
+    if string.len(ip) == 0 then
+        rsp["success"] = false
+        rsp["message"] = "invalid file"
+    else
+        os.remove(dir .. ip .. ".json")
+        rsp["success"] = true
+    end
 else
     rsp["success"] = false
     rsp["message"] = string.format("unexpected method: %s", ngx.var.request_method)
