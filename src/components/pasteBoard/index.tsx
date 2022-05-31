@@ -1,5 +1,7 @@
-import {Form, Table} from 'react-bootstrap';
+import {Button, Form, Table} from 'react-bootstrap';
 import {saltedDecrypt} from '../../utils/customEncryption';
+import {FaTrash} from 'react-icons/fa';
+
 
 export interface PasteInfo {
   text: string,
@@ -8,21 +10,45 @@ export interface PasteInfo {
   expire: number,
 }
 
-export interface PasteBoardParam {
-  infos: PasteInfo[],
+interface PastePadParam {
+  info: PasteInfo,
+  refreshFunc: () => void,
 }
 
-const PastPad = (info: PasteInfo) => {
-  const date = new Date(info.time * 1000);
-  const content = saltedDecrypt(info.text);
+export interface PasteBoardParam {
+  infos: PasteInfo[],
+  refreshFunc: () => void,
+}
+
+const PastePad = (param: PastePadParam) => {
+  const date = new Date(param.info.time * 1000);
+  const content = saltedDecrypt(param.info.text);
+
+  const deleteFile = (ip: string) => {
+    fetch('/paste/delete', {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({'ip': ip}),
+    }).then(() => param.refreshFunc());
+  };
 
   return (
     <tr>
       <td style={{verticalAlign: 'middle'}}>
         <div>
-          <div style={{margin: 'auto'}}>{info.ip}</div>
+          <div style={{margin: 'auto'}}>
+            {param.info.ip}
+          </div>
           <div style={{margin: 'auto'}}>
             {date.toLocaleDateString()} {date.toLocaleTimeString()}
+          </div>
+          <div style={{margin: 'auto'}}>
+            <Button
+              size="sm"
+              variant="outline-dark"
+              onClick={() => deleteFile(param.info.ip)}>
+              <FaTrash />
+            </Button>
           </div>
         </div>
       </td>
@@ -48,7 +74,10 @@ export default function PasteBoard(param: PasteBoardParam) {
           { param.infos.length &&
             param.infos.sort((a, b) => b.time - a.time)
                 .map((info) => (
-                  <PastPad key={info.ip} {...info}></PastPad>
+                  <PastePad
+                    key={info.ip}
+                    refreshFunc={param.refreshFunc}
+                    info={info} />
                 ))
           }
         </tbody>

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ProgressBar from '../../progressBar';
 import './index.css';
+import {FaTemperatureHigh} from 'react-icons/fa';
 
 export default function Temperature() {
   const [temperatures, setTemperatures] = useState<number[]>([]);
@@ -30,7 +31,7 @@ export default function Temperature() {
       {
         temperatures.map((val, index) => (
           <div key={index} className='process-bar-block'>
-            <span>Sensor#{index}</span>&nbsp;
+            <span><FaTemperatureHigh/></span>&nbsp;
             <ProgressBar
               value={val}
               minValue={0}
