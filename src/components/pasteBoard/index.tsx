@@ -1,6 +1,6 @@
 import {Button, Form, Table} from 'react-bootstrap';
 import {saltedDecrypt} from '../../utils/customEncryption';
-import {FaClipboardList, FaTrash} from 'react-icons/fa';
+import {FaClipboardList, FaTrash, FaStar} from 'react-icons/fa';
 
 
 export interface PasteInfo {
@@ -13,11 +13,13 @@ export interface PasteInfo {
 interface PastePadParam {
   info: PasteInfo,
   refreshFunc: () => void,
+  active: boolean,
 }
 
 export interface PasteBoardParam {
   infos: PasteInfo[],
   refreshFunc: () => void,
+  ip: string,
 }
 
 const PastePad = (param: PastePadParam) => {
@@ -37,7 +39,7 @@ const PastePad = (param: PastePadParam) => {
       <td style={{verticalAlign: 'middle'}}>
         <div>
           <div style={{margin: 'auto'}}>
-            {param.info.ip}
+            {param.active ? <><FaStar />{' '}</> : ''}{param.info.ip}
           </div>
           <div style={{margin: 'auto'}}>
             {date.toLocaleDateString()} {date.toLocaleTimeString()}
@@ -71,13 +73,14 @@ export default function PasteBoard(param: PasteBoardParam) {
           </tr>
         </thead>
         <tbody>
-          { param.infos.length &&
+          { param.infos.length > 0 &&
             param.infos.sort((a, b) => b.time - a.time)
                 .map((info) => (
                   <PastePad
                     key={info.ip}
                     refreshFunc={param.refreshFunc}
-                    info={info} />
+                    info={info}
+                    active={param.ip == info.ip} />
                 ))
           }
         </tbody>

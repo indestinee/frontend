@@ -29,7 +29,7 @@ export default function Paste() {
                 time: 7200,
                 ip: 'error2',
               }]);
-              setIp('error');
+              setIp('error2');
             },
         );
   };
@@ -45,7 +45,7 @@ export default function Paste() {
       <p>Your IP is: {ip}</p>
       <EditorBoard onSubmit={refreshPaste}/>
       <br /><br />
-      <PasteBoard infos={infos} refreshFunc={refreshPaste} />
+      <PasteBoard infos={infos} refreshFunc={refreshPaste} ip={ip} />
     </>
   );
 }
