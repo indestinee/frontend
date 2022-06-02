@@ -27,7 +27,7 @@ export default function Temperature() {
 
   return (
     <>
-      <h2>Temperatures</h2>
+      <h5>Temperatures</h5>
       {
         temperatures.map((val, index) => (
           <div key={index} className='process-bar-block'>
