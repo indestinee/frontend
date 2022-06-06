@@ -11,6 +11,5 @@
     padding: 12px;
     border-width: 0.2rem 0.2rem 0.2rem !important;
     border-color: #eeeeee !important;
-    min-height: 200px;
     overflow: scroll;
 }

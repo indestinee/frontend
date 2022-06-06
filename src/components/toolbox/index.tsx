@@ -1,21 +1,25 @@
 import {Card, Tab, Tabs} from 'react-bootstrap';
-import HashBox from './hashbox';
+import {FaReact, FaTools} from 'react-icons/fa';
+import EncodeBox from './encodeBox';
 import './index.css';
 
 export default function ToolBox() {
   return (
     <div className="tool-box">
-      <h5>Tool Box</h5>
+      <h5><FaTools />{' '}Tool Box </h5>
       <Card className="custom-card">
         <Tabs
           defaultActiveKey="greet"
           id="uncontrolled-tab-example"
           className="mb-3">
           <Tab eventKey="greet" title="Greet" className="custom-tab">
-            Hello, this is an greeting message.
+            <Card body>
+              <FaReact size="20px"/>{' '}
+              Hello, this is an greeting message.
+            </Card>
           </Tab>
-          <Tab eventKey="hash" title="Hash" className="custom-tab">
-            <HashBox />
+          <Tab eventKey="encode" title="Encode" className="custom-tab">
+            <EncodeBox />
           </Tab>
         </Tabs>
       </Card>

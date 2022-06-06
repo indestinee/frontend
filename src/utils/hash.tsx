@@ -4,6 +4,12 @@ import CryptoJS from 'crypto-js';
 /* eslint-disable new-cap */
 export const md5 = (value: string) => CryptoJS.MD5(value).toString();
 export const sha256 = (value: string) => CryptoJS.SHA256(value).toString();
+
+export const hmacMd5 = (value: string, key: string) =>
+  CryptoJS.HmacMD5(value, key).toString();
+export const hmacSha256 = (value: string, key: string) =>
+  CryptoJS.HmacSHA256(value, key).toString();
+
 export const b64Encode = (value: string) =>
   CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(value)).toString();
 export const b64Decode = (value: string) =>
