@@ -1,5 +1,6 @@
 import {Card, Tabs, Tab} from 'react-bootstrap';
 import {FaTools, FaReact} from 'react-icons/fa';
+import CustomCard from '../../components/card';
 import EncodeBox from '../../components/toolbox/encodeBox';
 import './index.css';
 
@@ -7,7 +8,7 @@ export default function ToolBox() {
   return (
     <>
       <h5><FaTools />{' '}Tool Box </h5>
-      <Card className="custom-card">
+      <CustomCard>
         <Tabs
           defaultActiveKey="greet"
           id="uncontrolled-tab-example"
@@ -22,7 +23,7 @@ export default function ToolBox() {
             <EncodeBox />
           </Tab>
         </Tabs>
-      </Card>
+      </CustomCard>
     </>
   );
 }
