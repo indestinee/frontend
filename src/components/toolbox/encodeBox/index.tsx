@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Col, FloatingLabel, Form, Row, Table} from 'react-bootstrap';
 import {
   b64Decode, b64Encode, hmacMd5, hmacSha256, md5, sha256,
-} from '../../../utils/hash';
+} from '../../../utils/cipher/hash';
 import {HashBlock} from '../hashBlock';
 
 export default function EncodeBox() {

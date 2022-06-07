@@ -1,5 +1,5 @@
 import {Button, Form, Table} from 'react-bootstrap';
-import {saltedDecrypt} from '../../utils/customEncryption';
+import {saltedDecrypt} from '../../utils/cipher/customEncryption';
 import {FaClipboardList, FaTrash, FaStar} from 'react-icons/fa';
 
 

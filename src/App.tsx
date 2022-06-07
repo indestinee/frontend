@@ -4,6 +4,9 @@ import Home from './pages/home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import ToolBox from './pages/toolbox';
+import Paste from './pages/paste';
+import Wifi from './pages/wifi';
+import {Branch, currentBranch} from './utils/branch/currentBranch';
 
 function App() {
   return (
@@ -14,6 +17,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route path="/toolbox" element={<ToolBox/>}/>
+          {
+            currentBranch == Branch.ROUTER &&
+            <>
+              <Route path="/wifi" element={<Wifi />}/>
+              <Route path="/paste" element={<Paste />}/>
+            </>
+          }
         </Routes>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import {saltedEncrypt} from '../../utils/customEncryption';
+import {saltedEncrypt} from '../../utils/cipher/customEncryption';
 import {FaEdit} from 'react-icons/fa';
 
 interface Param {
