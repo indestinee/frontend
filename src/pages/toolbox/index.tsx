@@ -1,7 +1,8 @@
-import {Card, Tabs, Tab} from 'react-bootstrap';
-import {FaTools, FaReact} from 'react-icons/fa';
+import {Tabs, Tab} from 'react-bootstrap';
+import {FaTools} from 'react-icons/fa';
 import CustomCard from '../../components/card';
 import EncodeBox from '../../components/toolbox/encodeBox';
+import QrCodeBox from '../../components/toolbox/qrCodeBox';
 import './index.css';
 
 export default function ToolBox() {
@@ -10,17 +11,14 @@ export default function ToolBox() {
       <h5><FaTools />{' '}Tool Box </h5>
       <CustomCard>
         <Tabs
-          defaultActiveKey="greet"
+          defaultActiveKey="encode"
           id="uncontrolled-tab-example"
           className="mb-3">
-          <Tab eventKey="greet" title="Greet" className="custom-tab">
-            <Card body>
-              <FaReact size="20px"/>{' '}
-              Hello, this is an greeting message.
-            </Card>
-          </Tab>
           <Tab eventKey="encode" title="Encode" className="custom-tab">
             <EncodeBox />
+          </Tab>
+          <Tab eventKey="qrcode" title="QR Code" className="custom-tab">
+            <QrCodeBox />
           </Tab>
         </Tabs>
       </CustomCard>
