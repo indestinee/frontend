@@ -1,0 +1,11 @@
+.nav-link {
+    text-decoration: none;
+    color: rgba(0,0,0,.55) !important;
+}
+
+.nav-brand {
+    text-decoration: none;
+    color: rgba(0,0,0,.55) !important;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+}

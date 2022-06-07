@@ -1,11 +1,11 @@
-import {Card, Tab, Tabs} from 'react-bootstrap';
-import {FaReact, FaTools} from 'react-icons/fa';
-import EncodeBox from './encodeBox';
+import {Card, Tabs, Tab} from 'react-bootstrap';
+import {FaTools, FaReact} from 'react-icons/fa';
+import EncodeBox from '../../components/toolbox/encodeBox';
 import './index.css';
 
 export default function ToolBox() {
   return (
-    <div className="tool-box">
+    <>
       <h5><FaTools />{' '}Tool Box </h5>
       <Card className="custom-card">
         <Tabs
@@ -23,6 +23,6 @@ export default function ToolBox() {
           </Tab>
         </Tabs>
       </Card>
-    </div>
+    </>
   );
-};
+}

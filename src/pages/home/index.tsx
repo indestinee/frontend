@@ -1,9 +1,9 @@
-import ToolBox from '../../components/toolbox';
+import {FaHotjar} from 'react-icons/fa';
 
 export default function Home() {
   return (
     <>
-      <ToolBox />
+      <h5><FaHotjar />{' '}Dashboard</h5>
     </>
   );
 }
