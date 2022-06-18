@@ -1,4 +1,4 @@
-import wifiJson from './wifi.json';
+import wifiJson from '../../config/wifi.json';
 import './index.css';
 import QRCode from 'qrcode.react';
 import {FaKey, FaWifi} from 'react-icons/fa';

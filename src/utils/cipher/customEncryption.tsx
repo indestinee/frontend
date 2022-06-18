@@ -1,28 +1,35 @@
 import {decrypt, encrypt} from './encryption';
 import pbkdf2 from 'pbkdf2';
-import cipherJson from './customCipher.json';
+import {randomStr} from '../random';
+import authJson from '../../config/auth.json';
 
-const randomStr = (size: number) => {
-  let s = '';
-  while (s.length < size) {
-    s += Math.random().toString(36).substring(2, 15);
+
+const salt = authJson.aesSalt;
+
+interface AesParam {
+  key: Buffer,
+  iv: Buffer,
+}
+
+export const getAesParam = (msg: string, authKey: string) => {
+  if (!authKey) {
+    console.log('auth key is empty');
+    throw new Error('auth key is empty');
   }
-  return s.substring(0, size);
+  return {
+    key: pbkdf2.pbkdf2Sync(authKey, salt + msg, 1000, 256 / 8),
+    iv: pbkdf2.pbkdf2Sync(authKey, salt + msg, 2000, 128 / 8),
+  };
 };
 
-const password = cipherJson.password;
-const salt = cipherJson.salt;
-
-const key = pbkdf2.pbkdf2Sync(password, salt, 1000, 256 / 8);
-const iv = pbkdf2.pbkdf2Sync(password, salt, 2000, 128 / 8);
-const blockSize = key.length;
-
-export const saltedEncrypt = (text: string) => {
+export const saltedEncrypt = (text: string, aesParam: AesParam) => {
+  const blockSize = aesParam.key.length;
   const padText = randomStr(blockSize) + text + randomStr(blockSize);
-  return encrypt(padText, key, iv);
+  return encrypt(padText, aesParam.key, aesParam.iv);
 };
 
-export const saltedDecrypt = (cipher: string) => {
-  const padText = decrypt(cipher, key, iv);
+export const saltedDecrypt = (cipher: string, aesParam: AesParam) => {
+  const blockSize = aesParam.key.length;
+  const padText = decrypt(cipher, aesParam.key, aesParam.iv);
   return padText.substring(blockSize, padText.length - blockSize);
 };

@@ -1,40 +1,31 @@
 import {Button, Form, Table} from 'react-bootstrap';
-import {saltedDecrypt} from '../../utils/cipher/customEncryption';
+import {getAesParam, saltedDecrypt} from '../../utils/cipher/customEncryption';
 import {FaClipboardList, FaTrash, FaStar} from 'react-icons/fa';
+import {useDispatch, useSelector} from 'react-redux';
+import {deletePaste, readPaste} from '../../api/paste';
+import {RootState} from '../../redux/store';
+import {PasteInfo} from '../../schemas/paste';
+import {hmacSha256} from '../../utils/cipher/hash';
 
-
-export interface PasteInfo {
-  text: string,
-  time: number,
-  ip: string,
-  expire: number,
-}
 
 interface PastePadParam {
   info: PasteInfo,
-  refreshFunc: () => void,
   active: boolean,
 }
 
-export interface PasteBoardParam {
-  infos: PasteInfo[],
-  refreshFunc: () => void,
-  ip: string,
-}
 
 const PastePad = (param: PastePadParam) => {
+  const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const dispatcher = useDispatch();
+
   const date = new Date(param.info.time * 1000);
-  const content = saltedDecrypt(param.info.text);
+  const signature = hmacSha256(param.info.encryptedPaste.aesMessage, authKey);
 
   const deleteFile = (ip: string) => {
-    fetch('/paste/delete', {
-      method: 'DELETE',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({'ip': ip}),
-    }).then(() => param.refreshFunc());
+    deletePaste(ip, authKey).then(() => readPaste(authKey, dispatcher));
   };
 
-  return (
+  return (signature != param.info.encryptedPaste.signature) ? (<></>) : (
     <tr>
       <td style={{verticalAlign: 'middle'}}>
         <div>
@@ -55,13 +46,23 @@ const PastePad = (param: PastePadParam) => {
         </div>
       </td>
       <td>
-        <Form.Control as="textarea" rows={5} value={content} disabled />
+        <Form.Control
+          as="textarea"
+          rows={5}
+          value={saltedDecrypt(
+              param.info.encryptedPaste.text,
+              getAesParam(param.info.encryptedPaste.aesMessage, authKey),
+          )}
+          disabled />
       </td>
     </tr>
   );
 };
 
-export default function PasteBoard(param: PasteBoardParam) {
+export default function PasteBoard() {
+  const pasteInfos = useSelector((state: RootState) => state.paste.pasteInfos);
+  const ip = useSelector((state: RootState) => state.paste.ip);
+
   return (
     <>
       <h5><FaClipboardList />Paste Board</h5>
@@ -73,14 +74,13 @@ export default function PasteBoard(param: PasteBoardParam) {
           </tr>
         </thead>
         <tbody>
-          { param.infos.length > 0 &&
-            param.infos.sort((a, b) => b.time - a.time)
+          { pasteInfos.length > 0 &&
+            pasteInfos
                 .map((info) => (
                   <PastePad
                     key={info.ip}
-                    refreshFunc={param.refreshFunc}
                     info={info}
-                    active={param.ip == info.ip} />
+                    active={ip == info.ip} />
                 ))
           }
         </tbody>

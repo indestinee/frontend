@@ -1,28 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import ProgressBar from '../../progressBar';
 import './index.css';
 import {FaTemperatureHigh, FaTemperatureLow} from 'react-icons/fa';
+import {fetchTemperature} from '../../../api/temperature';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux/store';
+import {setTemperatures} from '../../../redux/dashboard';
 
 export default function Temperature() {
-  const [temperatures, setTemperatures] = useState<number[]>([]);
+  const dispatcher = useDispatch();
+  const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const temperatures = useSelector(
+      (state: RootState) => state.dashboard.temperatures);
 
-  const fetchTemperature = () => {
-    fetch('/temperature')
-        .then((res) => res.json())
-        .then(
-            (result) => {
-              setTemperatures(result.data);
-            },
-            (error) => {
-              const result = {'data': [10, 20, 55, 60, 65, 66, 73]};
-              setTemperatures(result.data);
-            },
-        );
+  const refreshTemperatures = () => {
+    fetchTemperature(authKey).then(
+        (rsp) => dispatcher(setTemperatures(rsp.temperatures)));
   };
 
   useEffect(() => {
-    fetchTemperature();
-    setInterval(fetchTemperature, 2000);
+    refreshTemperatures();
+    const interval = setInterval(refreshTemperatures, 2000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
