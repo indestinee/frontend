@@ -20,7 +20,7 @@ export default function EditorBoard() {
       return;
     }
     const msg = randomStr(32);
-    const aesParam = getAesParam(msg);
+    const aesParam = getAesParam(msg, authKey);
     const cipher = saltedEncrypt(text, aesParam);
     if (cipher.length > 10 * 1024 * 1024) {
       alert(`cipher too large ${cipher.length}B, exceeded 10MB`);

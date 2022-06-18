@@ -14,7 +14,7 @@ export const fetchTemperature = async (authKey: string) => {
       });
   return rsp.json()
       .then(
-          (rsp) => rsp.data as TemperatureResponse,
+          (rsp) => rsp as TemperatureResponse,
           (error) => exampleTemperatureResponse,
       );
 };

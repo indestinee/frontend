@@ -1,8 +1,6 @@
 import {decrypt, encrypt} from './encryption';
 import pbkdf2 from 'pbkdf2';
 import {randomStr} from '../random';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
 
 
 const salt = '92b38b93b0395a869e527883e87b5bef';
@@ -12,9 +10,7 @@ interface AesParam {
   iv: Buffer,
 }
 
-export const getAesParam = (msg: string) => {
-  const authKey = useSelector((state: RootState) => state.auth.authKey);
-
+export const getAesParam = (msg: string, authKey: string) => {
   if (!authKey) {
     console.log('auth key is empty');
     throw new Error('auth key is empty');

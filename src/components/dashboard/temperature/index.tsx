@@ -15,12 +15,13 @@ export default function Temperature() {
 
   const refreshTemperatures = () => {
     fetchTemperature(authKey).then(
-        (rsp) => dispatcher(setTemperatures(rsp.temperatues)));
+        (rsp) => dispatcher(setTemperatures(rsp.temperatures)));
   };
 
   useEffect(() => {
     refreshTemperatures();
-    setInterval(refreshTemperatures, 2000);
+    const interval = setInterval(refreshTemperatures, 2000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

@@ -1,7 +1,11 @@
 import {Dispatch} from 'react';
 import {AnyAction} from 'redux';
 import {setIp, setPasteInfos} from '../redux/pasteSlice';
-import {EncryptedPaste, ReadPasteResponse} from '../schemas/paste';
+import {
+  EncryptedPaste,
+  exampleReadPasteResponse,
+  ReadPasteResponse,
+} from '../schemas/paste';
 import {getHeaders} from './common';
 
 export const readPaste = async (
@@ -13,7 +17,10 @@ export const readPaste = async (
     headers: getHeaders(authKey),
   });
   return rsp.json()
-      .then((rsp) => rsp.data as ReadPasteResponse)
+      .then(
+          (rsp) => rsp as ReadPasteResponse,
+          (error) => exampleReadPasteResponse,
+      )
       .then((rsp) => {
         dispatcher(setIp(rsp.ip));
         dispatcher(setPasteInfos(rsp.pasteInfos));

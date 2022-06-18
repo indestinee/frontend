@@ -19,7 +19,6 @@ const PastePad = (param: PastePadParam) => {
   const dispatcher = useDispatch();
 
   const date = new Date(param.info.time * 1000);
-  const aesParam = getAesParam(param.info.encryptedPaste.aesMessage);
   const signature = hmacSha256(param.info.encryptedPaste.aesMessage, authKey);
 
   const deleteFile = (ip: string) => {
@@ -50,7 +49,10 @@ const PastePad = (param: PastePadParam) => {
         <Form.Control
           as="textarea"
           rows={5}
-          value={saltedDecrypt(param.info.encryptedPaste.text, aesParam)}
+          value={saltedDecrypt(
+              param.info.encryptedPaste.text,
+              getAesParam(param.info.encryptedPaste.aesMessage, authKey),
+          )}
           disabled />
       </td>
     </tr>
@@ -73,7 +75,7 @@ export default function PasteBoard() {
         </thead>
         <tbody>
           { pasteInfos.length > 0 &&
-            pasteInfos.sort((a, b) => b.time - a.time)
+            pasteInfos
                 .map((info) => (
                   <PastePad
                     key={info.ip}
