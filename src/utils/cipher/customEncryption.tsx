@@ -1,9 +1,10 @@
 import {decrypt, encrypt} from './encryption';
 import pbkdf2 from 'pbkdf2';
 import {randomStr} from '../random';
+import authJson from '../../config/auth.json';
 
 
-const salt = '92b38b93b0395a869e527883e87b5bef';
+const salt = authJson.aesSalt;
 
 interface AesParam {
   key: Buffer,

@@ -10,7 +10,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  authKey: loadFromCache(authKeyName) || authJson.authDefaultKey,
+  authKey: loadFromCache(authKeyName) || '',
 };
 
 export const authSlice = createSlice({
@@ -19,7 +19,7 @@ export const authSlice = createSlice({
   reducers: {
     setAuthKey: (state, action: PayloadAction<string>) => {
       // to avoid using plaintext in local storage
-      const key = hmacSha256('key-' + authJson.randomSalt, action.payload);
+      const key = hmacSha256('key-' + authJson.authKeySalt, action.payload);
       state.authKey = key;
       writeToCache(authKeyName, key);
     },
