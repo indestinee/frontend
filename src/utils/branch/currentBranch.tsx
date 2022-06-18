@@ -1,4 +1,4 @@
-import json from './branch.json';
+import json from '../../config/branch.json';
 
 /* eslint-disable no-unused-vars */
 export enum Branch {
