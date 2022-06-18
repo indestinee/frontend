@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {loadFromCache, writeToCache} from '../utils/cache';
 import {hmacSha256} from '../utils/cipher/hash';
-
+import authJson from '../config/auth.json';
 
 const authKeyName = 'auth_key';
 
@@ -10,17 +10,16 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  authKey: loadFromCache(authKeyName) || '123',
+  authKey: loadFromCache(authKeyName) || authJson.authDefaultKey,
 };
-
-const authKeyMessage = 'key-a961012529a62a0ecb69bae6e7a7ba67';
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setAuthKey: (state, action: PayloadAction<string>) => {
-      const key = hmacSha256(authKeyMessage, action.payload);
+      // to avoid using plaintext in local storage
+      const key = hmacSha256('key-' + authJson.randomSalt, action.payload);
       state.authKey = key;
       writeToCache(authKeyName, key);
     },
