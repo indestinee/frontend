@@ -4,13 +4,15 @@ import PasteBoard from '../../components/pasteBoard';
 import {FaRegCopy} from 'react-icons/fa';
 import {readPaste} from '../../api/paste';
 import {RootState} from '../../redux/store';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function Paste() {
   const ip = useSelector((state: RootState) => state.paste.ip);
+  const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const dispatcher = useDispatch();
 
   useEffect(() => {
-    readPaste();
+    readPaste(authKey, dispatcher);
   }, []);
 
   return (

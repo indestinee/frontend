@@ -1,5 +1,3 @@
-import {useDispatch} from 'react-redux';
-import {setTemperatures} from '../redux/dashboard';
 import {
   TemperatureResponse,
   exampleTemperatureResponse,
@@ -7,17 +5,16 @@ import {
 import {getHeaders} from './common';
 
 
-export const fetchTemperature = async () => {
-  const dispatcher = useDispatch();
+export const fetchTemperature = async (authKey: string) => {
   const rsp = await fetch(
       '/temperature',
       {
         method: 'GET',
-        headers: getHeaders(),
+        headers: getHeaders(authKey),
       });
   return rsp.json()
       .then(
           (rsp) => rsp.data as TemperatureResponse,
           (error) => exampleTemperatureResponse,
-      ).then((rsp) => dispatcher(setTemperatures(rsp.temperatues)));
+      );
 };

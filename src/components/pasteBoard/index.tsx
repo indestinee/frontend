@@ -1,7 +1,7 @@
 import {Button, Form, Table} from 'react-bootstrap';
 import {getAesParam, saltedDecrypt} from '../../utils/cipher/customEncryption';
 import {FaClipboardList, FaTrash, FaStar} from 'react-icons/fa';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {deletePaste, readPaste} from '../../api/paste';
 import {RootState} from '../../redux/store';
 import {PasteInfo} from '../../schemas/paste';
@@ -16,13 +16,14 @@ interface PastePadParam {
 
 const PastePad = (param: PastePadParam) => {
   const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const dispatcher = useDispatch();
 
   const date = new Date(param.info.time * 1000);
   const aesParam = getAesParam(param.info.encryptedPaste.aesMessage);
   const signature = hmacSha256(param.info.encryptedPaste.aesMessage, authKey);
 
   const deleteFile = (ip: string) => {
-    deletePaste(ip).then(() => readPaste());
+    deletePaste(ip, authKey).then(() => readPaste(authKey, dispatcher));
   };
 
   return (signature != param.info.encryptedPaste.signature) ? (<></>) : (

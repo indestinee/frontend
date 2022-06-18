@@ -10,7 +10,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  authKey: loadFromCache(authKeyName) || ' ',
+  authKey: loadFromCache(authKeyName) || '123',
 };
 
 const authKeyMessage = 'key-a961012529a62a0ecb69bae6e7a7ba67';

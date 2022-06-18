@@ -15,7 +15,7 @@ interface AesParam {
 export const getAesParam = (msg: string) => {
   const authKey = useSelector((state: RootState) => state.auth.authKey);
 
-  if (authKey == null) {
+  if (!authKey) {
     console.log('auth key is empty');
     throw new Error('auth key is empty');
   }
