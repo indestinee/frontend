@@ -1,7 +1,9 @@
 import {useState} from 'react';
-import {Form, FloatingLabel, Button} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import {Form, FloatingLabel, Button, Alert} from 'react-bootstrap';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAuthKey} from '../../redux/authSlice';
+import {RootState} from '../../redux/store';
+import {Spacing} from '../spacing';
 import './index.css';
 
 export const AuthKeyInput = () => {
@@ -11,6 +13,7 @@ export const AuthKeyInput = () => {
     dispatcher(setAuthKey(text));
     setText('');
   };
+  const authKey = useSelector((state: RootState) => state.auth.authKey);
 
   return (
     <Form>
@@ -31,6 +34,15 @@ export const AuthKeyInput = () => {
           onClick={submit}
         >Submit</Button>
       </div>
+      {
+        !authKey && (
+          <Spacing marginTop='0.5rem'>
+            <Alert variant="danger">
+            You must enter an valid auth key!
+            </Alert>
+          </Spacing>
+        )
+      }
     </Form>
   );
 };
