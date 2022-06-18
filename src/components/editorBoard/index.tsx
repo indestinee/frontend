@@ -1,38 +1,37 @@
 import {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import {saltedEncrypt} from '../../utils/cipher/customEncryption';
+import {getAesParam, saltedEncrypt} from '../../utils/cipher/customEncryption';
 import {FaEdit} from 'react-icons/fa';
+import {randomStr} from '../../utils/random';
+import {readPaste, writePaste} from '../../api/paste';
+import {hmacSha256} from '../../utils/cipher/hash';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
 
-interface Param {
-  onSubmit: () => void,
-}
 
-export default function EditorBoard(param: Param) {
+export default function EditorBoard() {
   const [text, setText] = useState('');
+  const authKey = useSelector((state: RootState) => state.auth.authKey);
 
   const submit = () => {
     if (text.length == 0) {
-      param.onSubmit();
+      readPaste();
       return;
     }
-    const cipher = saltedEncrypt(text);
+    const msg = randomStr(32);
+    const aesParam = getAesParam(msg);
+    const cipher = saltedEncrypt(text, aesParam);
     if (cipher.length > 10 * 1024 * 1024) {
       alert(`cipher too large ${cipher.length}B, exceeded 10MB`);
-      param.onSubmit();
+      readPaste();
       return;
     }
-    fetch('/paste/write', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(
-          {'text': cipher, 'expire_time': 3600},
-      ),
-    })
-        .then((res) => res.json())
-        .then(
-            (result) => param.onSubmit(),
-            (error) => {},
-        );
+    writePaste({
+      text: cipher,
+      expireTime: 3600,
+      aesMessage: msg,
+      signature: hmacSha256(msg, authKey),
+    });
   };
 
   return (
