@@ -7,18 +7,18 @@ import {RootState} from '../../redux/store';
 import {useDispatch, useSelector} from 'react-redux';
 
 export default function Paste() {
-  const ip = useSelector((state: RootState) => state.paste.ip);
-  const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const paste = useSelector((state: RootState) => state.paste);
+  const auth = useSelector((state: RootState) => state.auth);
   const dispatcher = useDispatch();
 
   useEffect(() => {
-    readPaste(authKey, dispatcher);
+    readPaste(auth.authKey, dispatcher);
   }, []);
 
   return (
     <>
       <h2><FaRegCopy />Shared Clipboard</h2>
-      <p>Your IP is: {ip}</p>
+      <p>Your IP is: {paste.ip}</p>
       <EditorBoard />
       <br /><br />
       <PasteBoard />

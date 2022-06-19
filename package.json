@@ -14,6 +14,7 @@
     "@types/pbkdf2": "^3.1.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/redux-logger": "^3.0.9",
     "aes-js": "^3.1.2",
     "bootstrap": "^5.1.3",
     "buffer": "^6.0.3",
@@ -27,6 +28,7 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
+    "redux-logger": "^3.0.6",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },

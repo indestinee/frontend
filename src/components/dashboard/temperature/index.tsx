@@ -5,16 +5,16 @@ import {FaTemperatureHigh, FaTemperatureLow} from 'react-icons/fa';
 import {fetchTemperature} from '../../../api/temperature';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
-import {setTemperatures} from '../../../redux/dashboard';
+import {setTemperatures} from '../../../redux/dashboardSlice';
 
 export default function Temperature() {
   const dispatcher = useDispatch();
-  const authKey = useSelector((state: RootState) => state.auth.authKey);
-  const temperatures = useSelector(
-      (state: RootState) => state.dashboard.temperatures);
+  const auth = useSelector((state: RootState) => state.auth);
+  const dashboard = useSelector(
+      (state: RootState) => state.dashboard);
 
   const refreshTemperatures = () => {
-    fetchTemperature(authKey).then(
+    fetchTemperature(auth.authKey).then(
         (rsp) => dispatcher(setTemperatures(rsp.temperatures)));
   };
 
@@ -28,7 +28,7 @@ export default function Temperature() {
     <>
       <h5><FaTemperatureLow />{' '}Temperatures</h5>
       {
-        temperatures.map((val, index) => (
+        dashboard.temperatures.map((val, index) => (
           <div key={index} className='process-bar-block'>
             <span><FaTemperatureHigh/></span>&nbsp;
             <ProgressBar

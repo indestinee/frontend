@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import ToolBox from './pages/toolbox';
 import {Branch, currentBranch} from './utils/branch/currentBranch';
+import Announcement from './components/announcement';
 import {Spacing} from './components/spacing';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <div>
       <Navigation/>
       <div className="app-container container">
+        <Announcement />
         <Spacing marginTop='1rem' />
         <Routes>
           <Route path="/" element={<Home />}/>

@@ -11,10 +11,13 @@ interface AesParam {
   iv: Buffer,
 }
 
-export const getAesParam = (msg: string, authKey: string) => {
+export const getAesParam = (
+    msg: string,
+    authKey: string,
+) => {
   if (!authKey) {
-    console.log('auth key is empty');
-    throw new Error('auth key is empty');
+    const message = 'auth key is empty';
+    throw new Error(message);
   }
   return {
     key: pbkdf2.pbkdf2Sync(authKey, salt + msg, 1000, 256 / 8),
