@@ -1,0 +1,7 @@
+.annoucement {
+    opacity: 0.8;
+    width: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+}

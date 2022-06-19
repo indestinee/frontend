@@ -15,14 +15,16 @@ interface PastePadParam {
 
 
 const PastePad = (param: PastePadParam) => {
-  const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const auth = useSelector((state: RootState) => state.auth);
   const dispatcher = useDispatch();
 
   const date = new Date(param.info.time * 1000);
-  const signature = hmacSha256(param.info.encryptedPaste.aesMessage, authKey);
+  const signature = hmacSha256(
+      param.info.encryptedPaste.aesMessage, auth.authKey);
 
   const deleteFile = (ip: string) => {
-    deletePaste(ip, authKey).then(() => readPaste(authKey, dispatcher));
+    deletePaste(ip, auth.authKey)
+        .then(() => readPaste(auth.authKey, dispatcher));
   };
 
   return (signature != param.info.encryptedPaste.signature) ? (<></>) : (
@@ -51,7 +53,7 @@ const PastePad = (param: PastePadParam) => {
           rows={5}
           value={saltedDecrypt(
               param.info.encryptedPaste.text,
-              getAesParam(param.info.encryptedPaste.aesMessage, authKey),
+              getAesParam(param.info.encryptedPaste.aesMessage, auth.authKey),
           )}
           disabled />
       </td>
@@ -60,8 +62,7 @@ const PastePad = (param: PastePadParam) => {
 };
 
 export default function PasteBoard() {
-  const pasteInfos = useSelector((state: RootState) => state.paste.pasteInfos);
-  const ip = useSelector((state: RootState) => state.paste.ip);
+  const paste = useSelector((state: RootState) => state.paste);
 
   return (
     <>
@@ -74,13 +75,13 @@ export default function PasteBoard() {
           </tr>
         </thead>
         <tbody>
-          { pasteInfos.length > 0 &&
-            pasteInfos
+          { paste.pasteInfos.length > 0 &&
+            paste.pasteInfos
                 .map((info) => (
                   <PastePad
                     key={info.ip}
                     info={info}
-                    active={ip == info.ip} />
+                    active={paste.ip == info.ip} />
                 ))
           }
         </tbody>

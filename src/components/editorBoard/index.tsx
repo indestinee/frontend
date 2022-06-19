@@ -11,28 +11,28 @@ import {RootState} from '../../redux/store';
 
 export default function EditorBoard() {
   const [text, setText] = useState('');
-  const authKey = useSelector((state: RootState) => state.auth.authKey);
+  const auth = useSelector((state: RootState) => state.auth);
   const dispatcher = useDispatch();
 
   const submit = () => {
     if (text.length == 0) {
-      readPaste(authKey, dispatcher);
+      readPaste(auth.authKey, dispatcher);
       return;
     }
     const msg = randomStr(32);
-    const aesParam = getAesParam(msg, authKey);
+    const aesParam = getAesParam(msg, auth.authKey);
     const cipher = saltedEncrypt(text, aesParam);
     if (cipher.length > 10 * 1024 * 1024) {
       alert(`cipher too large ${cipher.length}B, exceeded 10MB`);
-      readPaste(authKey, dispatcher);
+      readPaste(auth.authKey, dispatcher);
       return;
     }
     writePaste({
       text: cipher,
       expireTime: 3600,
       aesMessage: msg,
-      signature: hmacSha256(msg, authKey),
-    }, authKey).then(() => readPaste(authKey, dispatcher));
+      signature: hmacSha256(msg, auth.authKey),
+    }, auth.authKey).then(() => readPaste(auth.authKey, dispatcher));
   };
 
   return (

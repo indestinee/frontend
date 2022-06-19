@@ -20,9 +20,11 @@ export default function QrCodeBox() {
       </Row>
       <div style={{marginTop: '12px', textAlign: 'center'}}>
         <QRCode
-          size={384}
+          height="auto"
+          width="auto"
+          style={{maxWidth: '400px'}}
           value={text}
-          renderAs="canvas" />
+          renderAs="svg" />
       </div>
     </Form>
   );
