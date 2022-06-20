@@ -3,32 +3,32 @@ import ProgressBar from '../../progressBar';
 import './index.css';
 import {FaTemperatureHigh, FaTemperatureLow} from 'react-icons/fa';
 import {fetchTemperature} from '../../../api/temperature';
-import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../redux/store';
 import {setTemperatures} from '../../../redux/dashboardSlice';
+import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
 
-export default function Temperature() {
-  const dispatcher = useDispatch();
-  const auth = useSelector((state: RootState) => state.auth);
-  const dashboard = useSelector(
-      (state: RootState) => state.dashboard);
+export const Temperature = () => {
+  const dispatch = useAppDispatch();
 
-  const refreshTemperatures = () => {
-    fetchTemperature(auth.authKey).then(
-        (rsp) => dispatcher(setTemperatures(rsp.temperatures)));
+  const dashboard = useAppSelector((state: RootState) => state.dashboard);
+  const {authKey}= useAppSelector((state: RootState) => state.auth);
+
+  const refreshTemperatures = (authKey: string) => {
+    fetchTemperature(authKey).then(
+      (rsp) => dispatch(setTemperatures(rsp.temperatures)));
   };
 
   useEffect(() => {
-    refreshTemperatures();
-    const interval = setInterval(refreshTemperatures, 2000);
+    refreshTemperatures(authKey);
+    const interval = setInterval(() => refreshTemperatures(authKey), 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [authKey]);
 
   return (
     <>
       <h5><FaTemperatureLow />{' '}Temperatures</h5>
       {
-        dashboard.temperatures.map((val, index) => (
+        dashboard.temperatures.map((val: number, index: number) => (
           <div key={index} className='process-bar-block'>
             <span><FaTemperatureHigh/></span>&nbsp;
             <ProgressBar
@@ -43,4 +43,4 @@ export default function Temperature() {
       }
     </>
   );
-}
+};

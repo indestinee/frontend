@@ -1,4 +1,4 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import authSlice from './authSlice';
 import dashboardSlice from './dashboardSlice';
@@ -6,7 +6,7 @@ import generalSlice from './generalSlice';
 import pasteSlice from './pasteSlice';
 
 
-const store = configureStore({
+export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   reducer: {
     auth: authSlice,
@@ -16,5 +16,11 @@ const store = configureStore({
   },
 });
 
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export default store;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;

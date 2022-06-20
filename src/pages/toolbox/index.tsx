@@ -1,8 +1,8 @@
 import {Tabs, Tab} from 'react-bootstrap';
 import {FaTools} from 'react-icons/fa';
 import CustomCard from '../../components/card';
-import EncodeBox from '../../components/toolbox/encodeBox';
-import QrCodeBox from '../../components/toolbox/qrCodeBox';
+import EncodeBox from '../../features/toolbox/encodeBox';
+import QrCodeBox from '../../features/toolbox/qrCodeBox';
 import './index.css';
 
 export default function ToolBox() {

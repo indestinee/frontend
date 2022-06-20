@@ -9,24 +9,24 @@ export default function Wifi() {
     <Accordion defaultActiveKey="0">
       {
         Object.entries(wifiJson).map(
-            ([k, v], index) => (
-              <Accordion.Item eventKey={`${index}`} key={k}>
-                <Accordion.Header>{k}</Accordion.Header>
-                <Accordion.Body style={{padding: '24px'}}>
-                  <div className="wifi">
-                    <p><FaWifi size={24}/>{'  '}{k}</p>
-                    <p><FaKey size={24}/>{'  '}{v}</p>
-                    <br />
-                    <QRCode
-                      height="auto"
-                      width="auto"
-                      style={{maxWidth: '400px'}}
-                      value={`WIFI:T:WPA;S:${k};P:${v};;`}
-                      renderAs="svg" />
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-            ))
+          ([k, v], index) => (
+            <Accordion.Item eventKey={`${index}`} key={k}>
+              <Accordion.Header>{k}</Accordion.Header>
+              <Accordion.Body style={{padding: '24px'}}>
+                <div className="wifi">
+                  <p><FaWifi size={24}/>{'  '}{k}</p>
+                  <p><FaKey size={24}/>{'  '}{v}</p>
+                  <br />
+                  <QRCode
+                    height="auto"
+                    width="auto"
+                    style={{maxWidth: '400px'}}
+                    value={`WIFI:T:WPA;S:${k};P:${v};;`}
+                    renderAs="svg" />
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))
       }
     </Accordion>
   );

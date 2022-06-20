@@ -1,7 +1,7 @@
 import {Button, Form, Table} from 'react-bootstrap';
 import {getAesParam, saltedDecrypt} from '../../utils/cipher/customEncryption';
 import {FaClipboardList, FaTrash, FaStar} from 'react-icons/fa';
-import {useDispatch, useSelector} from 'react-redux';
+import {useAppSelector, useAppDispatch} from '../../redux/hooks';
 import {deletePaste, readPaste} from '../../api/paste';
 import {RootState} from '../../redux/store';
 import {PasteInfo} from '../../schemas/paste';
@@ -15,16 +15,16 @@ interface PastePadParam {
 
 
 const PastePad = (param: PastePadParam) => {
-  const auth = useSelector((state: RootState) => state.auth);
-  const dispatcher = useDispatch();
+  const auth = useAppSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
 
   const date = new Date(param.info.time * 1000);
   const signature = hmacSha256(
-      param.info.encryptedPaste.aesMessage, auth.authKey);
+    param.info.encryptedPaste.aesMessage, auth.authKey);
 
   const deleteFile = (ip: string) => {
     deletePaste(ip, auth.authKey)
-        .then(() => readPaste(auth.authKey, dispatcher));
+      .then(() => readPaste(auth.authKey, dispatch));
   };
 
   return (signature != param.info.encryptedPaste.signature) ? (<></>) : (
@@ -52,8 +52,8 @@ const PastePad = (param: PastePadParam) => {
           as="textarea"
           rows={5}
           value={saltedDecrypt(
-              param.info.encryptedPaste.text,
-              getAesParam(param.info.encryptedPaste.aesMessage, auth.authKey),
+            param.info.encryptedPaste.text,
+            getAesParam(param.info.encryptedPaste.aesMessage, auth.authKey),
           )}
           disabled />
       </td>
@@ -62,7 +62,7 @@ const PastePad = (param: PastePadParam) => {
 };
 
 export default function PasteBoard() {
-  const paste = useSelector((state: RootState) => state.paste);
+  const paste = useAppSelector((state: RootState) => state.paste);
 
   return (
     <>
@@ -77,12 +77,12 @@ export default function PasteBoard() {
         <tbody>
           { paste.pasteInfos.length > 0 &&
             paste.pasteInfos
-                .map((info) => (
-                  <PastePad
-                    key={info.ip}
-                    info={info}
-                    active={paste.ip == info.ip} />
-                ))
+              .map((info: PasteInfo) => (
+                <PastePad
+                  key={info.ip}
+                  info={info}
+                  active={paste.ip == info.ip} />
+              ))
           }
         </tbody>
       </Table>

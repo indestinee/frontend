@@ -1,32 +1,41 @@
 import {useState} from 'react';
 import {Form, FloatingLabel, Button} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
-import {setAuthKey} from '../../redux/authSlice';
+import {useAppSelector, useAppDispatch} from '../../redux/hooks';
 import {appendMessage} from '../../redux/generalSlice';
 import {RootState} from '../../redux/store';
+import authJson from '../../config/auth.json';
 import './index.css';
+import {authKeyName, setAuthKey} from '../../redux/authSlice';
+import {hmacSha256} from '../../utils/cipher/hash';
+import {writeToCache} from '../../utils/cache';
 
 export const AuthKeyInput = () => {
   const [text, setText] = useState('');
-  const dispatcher = useDispatch();
+  const [validated, setValidated] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state: RootState) => state.auth);
+
   const submit = () => {
     if (text.length < 10) {
       setValidated(true);
       return;
     }
     setValidated(false);
-    dispatcher(setAuthKey(text));
-    dispatcher(appendMessage({
+
+    const authKey = hmacSha256('key-' + authJson.authKeySalt, text);
+    dispatch(setAuthKey(authKey));
+    writeToCache(authKeyName, authKey);
+    dispatch(appendMessage({
       level: 'success',
-      content: `successfully set auth key to ${auth.authKey.slice(0, 5)}...`,
+      content: `successfully set auth key to ${authKey.slice(0, 5)}...`,
     }));
+
     setText('');
   };
-  const auth = useSelector((state: RootState) => state.auth);
-  const [validated, setValidated] = useState(false);
 
   return (
-    <Form>
+    <Form onSubmit={submit} >
       <div className='inline-input'>
         <FloatingLabel
           controlId="floatingInputGrid"
@@ -43,9 +52,9 @@ export const AuthKeyInput = () => {
             }/>
           <Form.Control.Feedback type="invalid">
             {
-              (auth.authKey.length == 0) ?
-              'You must input an auth key first!':
-              'Please input a valid auth key with at least 10 length.'
+              (validated) ?
+                'Please input a valid auth key with at least 10 length.':
+                'You must input an auth key first!'
             }
           </Form.Control.Feedback>
         </FloatingLabel>
