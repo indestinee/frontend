@@ -9,28 +9,28 @@ import {
 import {getHeaders} from './common';
 
 export const readPaste = async (
-    authKey: string,
-    dispatcher: Dispatch<AnyAction>,
+  authKey: string,
+  dispatch: Dispatch<AnyAction>,
 ) => {
   const rsp = await fetch('/paste/read', {
     method: 'GET',
     headers: getHeaders(authKey),
   });
   return rsp.json()
-      .then(
-          (rsp) => rsp as ReadPasteResponse,
-          (error) => exampleReadPasteResponse,
-      )
-      .then((rsp) => {
-        dispatcher(setIp(rsp.ip));
-        dispatcher(setPasteInfos(rsp.pasteInfos));
-      },
-      );
+    .then(
+      (rsp) => rsp as ReadPasteResponse,
+      (error) => exampleReadPasteResponse,
+    )
+    .then((rsp) => {
+      dispatch(setIp(rsp.ip));
+      dispatch(setPasteInfos(rsp.pasteInfos));
+    },
+    );
 };
 
 export const writePaste = async (
-    request: EncryptedPaste,
-    authKey: string,
+  request: EncryptedPaste,
+  authKey: string,
 ) => {
   fetch( '/paste/write', {
     method: 'POST',
@@ -40,8 +40,8 @@ export const writePaste = async (
 };
 
 export const deletePaste = async (
-    ip: string,
-    authKey: string,
+  ip: string,
+  authKey: string,
 ) => {
   fetch('/paste/delete', {
     method: 'DELETE',

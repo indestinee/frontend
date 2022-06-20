@@ -5,3 +5,7 @@ export const randomStr = (size: number) => {
   }
   return s.substring(0, size);
 };
+
+export const randomIntArray = (length: number, max: number) => {
+  return Array.from({length}, () => Math.floor(Math.random() * max));
+};

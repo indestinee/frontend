@@ -12,8 +12,8 @@ interface AesParam {
 }
 
 export const getAesParam = (
-    msg: string,
-    authKey: string,
+  msg: string,
+  authKey: string,
 ) => {
   if (!authKey) {
     const message = 'auth key is empty';

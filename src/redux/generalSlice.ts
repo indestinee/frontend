@@ -37,20 +37,20 @@ export const generalSlice = createSlice({
       });
       state.messageInfos = state.messageInfos.slice(-maxMessages);
       console.log(
-          `[${action.payload.level.toUpperCase()}] ${action.payload.content}`);
+        `[${action.payload.level.toUpperCase()}] ${action.payload.content}`);
     },
     setMessage: (state, action: PayloadAction<MessageInfo[]>) => {
       state.messageInfos = action.payload;
     },
     deleteMessage: (state, action: PayloadAction<string>) => {
       state.messageInfos = state.messageInfos.filter(
-          (messageInfo) => messageInfo.hash != action.payload,
+        (messageInfo) => messageInfo.hash != action.payload,
       );
     },
     expireMessage: (state) => {
       const ts = Date.now();
       state.messageInfos = state.messageInfos.filter(
-          (messageInfo) => messageInfo.expire > ts,
+        (messageInfo) => messageInfo.expire > ts,
       );
     },
   },

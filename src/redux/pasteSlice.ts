@@ -20,8 +20,9 @@ export const pasteSlice = createSlice({
       state.ip = action.payload;
     },
     setPasteInfos: (state, action: PayloadAction<PasteInfo[]>) => {
-      state.pasteInfos = action.payload.length ?
-          action.payload.sort((a, b) => b.time - a.time): [];
+      const copiesArray = [...action.payload];
+      state.pasteInfos = !!copiesArray.length ?
+        copiesArray.sort((a, b) => b.time - a.time): [];
     },
   },
 });
