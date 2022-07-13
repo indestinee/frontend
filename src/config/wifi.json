@@ -1,4 +1,9 @@
-{
-    "xxxx-WiFi": "12341234",
-    "yyyy-WiFi": "12341234"
-}
+[
+    {
+        "name": "xxxx-WiFi",
+        "length": 24
+    }, {
+        "name": "yyyy-WiFi",
+        "length": 24
+    }
+]

@@ -24,7 +24,7 @@ export default function EncodeBox() {
         <Col md>
           <FloatingLabel controlId="floatingInputGrid" label="Key">
             <Form.Control
-              type="text"
+              type="password"
               placeholder="key"
               value={key}
               onChange={(event) => setKey(event.target.value)}/>

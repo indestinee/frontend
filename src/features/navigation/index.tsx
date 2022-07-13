@@ -1,6 +1,7 @@
 import {Container, Nav, Navbar} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
 import {currentBranch, Branch} from '../../utils/branch/currentBranch';
+import {isWindows} from '../../utils/client';
 import './index.css';
 
 export default function Navigation() {
@@ -19,7 +20,7 @@ export default function Navigation() {
                 <NavLink className="nav-link" to="/paste">Paste</NavLink>
                 <Nav.Link href="/cgi-bin/luci/">Luci</Nav.Link>
                 <Nav.Link href="/gl_home.html">GL Home</Nav.Link>
-                <Nav.Link href="smb://192.168.8.1/">Samba</Nav.Link>
+                <Nav.Link href={isWindows()? '\\\\192.168.8.1' : 'smb://192.168.8.1/'}>Samba</Nav.Link>
                 <Nav.Link href="/transmission/web/">Transmission</Nav.Link>
               </>
             }
