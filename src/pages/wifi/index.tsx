@@ -30,7 +30,7 @@ export default function Wifi() {
                       height="auto"
                       width="auto"
                       style={{maxWidth: '400px'}}
-                      value={`WIFI:T:WPA;S:${name};P:${password};;`}
+                      value={`WIFI:T:WPA;S:${name};P:${password};`}
                       renderAs="svg" />
                   </div>
                 </Accordion.Body>
