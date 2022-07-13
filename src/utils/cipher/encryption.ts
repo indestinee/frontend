@@ -1,4 +1,5 @@
 import aesjs from 'aes-js';
+import {Buffer} from 'buffer';
 
 export const encrypt = (text: string, key: Uint8Array, iv: Uint8Array) => {
   const textBytes = aesjs.utils.utf8.toBytes(text);
@@ -9,12 +10,11 @@ export const encrypt = (text: string, key: Uint8Array, iv: Uint8Array) => {
   // eslint-disable-next-line new-cap
   const aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
   const encryptedBytes = aesCbc.encrypt(paddedTextBytes);
-  const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-  return encryptedHex;
+  return Buffer.from(encryptedBytes).toString('base64');
 };
 
 export const decrypt = (cipher: string, key: Uint8Array, iv: Uint8Array) => {
-  const encryptedBytes = aesjs.utils.hex.toBytes(cipher);
+  const encryptedBytes = Buffer.from(cipher, 'base64');
 
   // eslint-disable-next-line new-cap
   const aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);

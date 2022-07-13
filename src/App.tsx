@@ -28,7 +28,7 @@ function App() {
         <Spacing marginTop='1rem' />
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/toolbox" element={<ToolBox/>}/>
+          <Route path="/toolbox" element={<ToolBox />}/>
           {
             currentBranch == Branch.ROUTER &&
             <>

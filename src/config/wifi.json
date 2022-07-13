@@ -1,4 +1,9 @@
-{
-    "xxxx-WiFi": "12341234",
-    "yyyy-WiFi": "12341234"
-}
+[
+    {
+        "name": "xxxx-WiFi",
+        "isGuest": true
+    }, {
+        "name": "yyyy-WiFi",
+        "isGuest": false
+    }
+]
