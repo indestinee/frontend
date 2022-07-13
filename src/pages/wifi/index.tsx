@@ -4,7 +4,6 @@ import {Accordion} from 'react-bootstrap';
 import {useAppSelector} from '../../redux/hooks';
 import {RootState} from '../../redux/store';
 import {hmacSha256} from '../../utils/cipher/hash';
-import {Buffer} from 'buffer';
 import wifiJson from '../../config/wifi.json';
 import './index.css';
 
@@ -15,12 +14,8 @@ export default function Wifi() {
       {
         wifiJson.map(
           (wifi, index) => {
-            const {name, isGuest} = wifi;
-            const rawPassword = Buffer.from(hmacSha256(name, authKey), 'hex')
-              .toString('base64');
-            const password = isGuest ?
-              rawPassword.substring(0, 16) :
-              rawPassword;
+            const {name, length} = wifi;
+            const password = hmacSha256(name, authKey).substring(0, length);
             return (
               <Accordion.Item eventKey={index.toString()} key={name}>
                 <Accordion.Header>{name}</Accordion.Header>

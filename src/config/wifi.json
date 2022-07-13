@@ -1,9 +1,9 @@
 [
     {
         "name": "xxxx-WiFi",
-        "isGuest": true
+        "length": 24
     }, {
         "name": "yyyy-WiFi",
-        "isGuest": false
+        "length": 24
     }
 ]
