@@ -43,7 +43,7 @@
     },
     {
         "name": "Dashboard",
-        "link": "/dashboard",
+        "link": "http://192.168.8.1:19999",
         "branches": ["ROUTER"],
         "isReact": false
     }
