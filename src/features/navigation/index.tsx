@@ -24,10 +24,6 @@ const NavItem = ({navItemProp}: {navItemProp: NavItemProp}) => {
 };
 
 export default function Navigation() {
-  console.log('navItems:', navItems.map((navItemProp) => (
-    `${navItemProp.branches.includes(currentBranch.toString())}`+
-    `${navItemProp.branches}`+currentBranch
-  )));
   return (
     <Navbar bg="light" expand="lg">
       <Container style={{flexDirection: 'row'}}>
@@ -37,7 +33,7 @@ export default function Navigation() {
           <Nav className="me-auto">
             {
               navItems.map((navItemProp) => (
-                navItemProp.branches.includes(currentBranch.toString()) &&
+                navItemProp.branches.includes(currentBranch) &&
                 <NavItem
                   key={navItemProp.name}
                   navItemProp={navItemProp as NavItemProp}
