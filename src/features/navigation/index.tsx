@@ -1,8 +1,27 @@
 import {Container, Nav, Navbar} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
 import {currentBranch, Branch} from '../../utils/branch/currentBranch';
-import {isWindows} from '../../utils/client';
+import navItems from '../../config/nav.json';
 import './index.css';
+
+interface NavItemProp {
+  name: string,
+  link: string,
+  branches: string[],
+  isReact: boolean,
+}
+
+const NavItem = ({navItemProp}: {navItemProp: NavItemProp}) => {
+  return (navItemProp.isReact) ? (
+    <NavLink className="nav-link" to={navItemProp.link}>
+      {navItemProp.name}
+    </NavLink>
+  ) : (
+    <Nav.Link href={navItemProp.link}>
+      {navItemProp.name}
+    </Nav.Link>
+  );
+};
 
 export default function Navigation() {
   return (
@@ -12,6 +31,15 @@ export default function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+            {
+              navItems.map((navItemProp) => (
+                navItemProp.branches.includes(currentBranch.toString()) &&
+                <NavItem
+                  key={navItemProp.name}
+                  navItemProp={navItemProp as NavItemProp}
+                />
+              ))
+            }
             <NavLink className="nav-link" to="/toolbox">Toolbox</NavLink>
             {
               currentBranch == Branch.ROUTER &&
@@ -20,7 +48,6 @@ export default function Navigation() {
                 <NavLink className="nav-link" to="/paste">Paste</NavLink>
                 <Nav.Link href="/cgi-bin/luci/">Luci</Nav.Link>
                 <Nav.Link href="/gl_home.html">GL Home</Nav.Link>
-                <Nav.Link href={isWindows()? '\\\\192.168.8.1' : 'smb://192.168.8.1/'}>Samba</Nav.Link>
                 <Nav.Link href="/transmission/web/">Transmission</Nav.Link>
               </>
             }

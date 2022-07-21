@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Toolbox",
+        "link": "/toolbox",
+        "branches": ["ROUTER", "MAIN"],
+        "isReact": true
+    },
+    {
+        "name": "WiFi",
+        "link": "/wifi",
+        "branches": ["ROUTER"],
+        "isReact": true
+    },
+    {
+        "name": "Paste",
+        "link": "/paste",
+        "branches": ["ROUTER"],
+        "isReact": true
+    },
+    {
+        "name": "Luci",
+        "link": "/cgi-bin/luci/",
+        "branches": ["ROUTER"],
+        "isReact": false
+    },
+    {
+        "name": "GL Home",
+        "link": "/gl_home.html",
+        "branches": ["ROUTER"],
+        "isReact": false
+    },
+    {
+        "name": "Samba",
+        "link": "smb://192.168.8.1/",
+        "branches": ["ROUTER"],
+        "isReact": false
+    },
+    {
+        "name": "Transmission",
+        "link": "/transmission/web/",
+        "branches": ["ROUTER"],
+        "isReact": false
+    },
+    {
+        "name": "Dashboard",
+        "link": "/dashboard",
+        "branches": ["ROUTER"],
+        "isReact": false
+    }
+
+]

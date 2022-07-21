@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div>
-      <Navigation/>
+      <Navigation />
       <div className="app-container container">
         <Announcement />
         <Spacing marginTop='1rem' />
