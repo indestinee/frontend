@@ -7,7 +7,7 @@ import './index.css';
 interface NavItemProp {
   name: string,
   link: string,
-  branches: string[],
+  branches: Branch[],
   isReact: boolean,
 }
 
@@ -24,6 +24,10 @@ const NavItem = ({navItemProp}: {navItemProp: NavItemProp}) => {
 };
 
 export default function Navigation() {
+  console.log('navItems:', navItems.map((navItemProp) => (
+    `${navItemProp.branches.includes(currentBranch.toString())}`+
+    `${navItemProp.branches}`+currentBranch
+  )));
   return (
     <Navbar bg="light" expand="lg">
       <Container style={{flexDirection: 'row'}}>
@@ -39,17 +43,6 @@ export default function Navigation() {
                   navItemProp={navItemProp as NavItemProp}
                 />
               ))
-            }
-            <NavLink className="nav-link" to="/toolbox">Toolbox</NavLink>
-            {
-              currentBranch == Branch.ROUTER &&
-              <>
-                <NavLink className="nav-link" to="/wifi">WiFi</NavLink>
-                <NavLink className="nav-link" to="/paste">Paste</NavLink>
-                <Nav.Link href="/cgi-bin/luci/">Luci</Nav.Link>
-                <Nav.Link href="/gl_home.html">GL Home</Nav.Link>
-                <Nav.Link href="/transmission/web/">Transmission</Nav.Link>
-              </>
             }
           </Nav>
         </Navbar.Collapse>

@@ -6,7 +6,7 @@ import Wifi from './pages/wifi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import ToolBox from './pages/toolbox';
-import {Branch, currentBranch} from './utils/branch/currentBranch';
+import {currentBranch} from './utils/branch/currentBranch';
 import Announcement from './features/announcement';
 import {Spacing} from './components/spacing';
 import {useEffect} from 'react';
@@ -30,7 +30,7 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/toolbox" element={<ToolBox />}/>
           {
-            currentBranch == Branch.ROUTER &&
+            currentBranch == 'ROUTER' &&
             <>
               <Route path="/wifi" element={<Wifi />}/>
               <Route path="/paste" element={<Paste />}/>
